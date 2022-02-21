@@ -13,13 +13,7 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                storage[i] = r;
-                counter++;
-                break;
-            }
-        }
+        storage[counter++] = r;
     }
 
     Resume get(String uuid) {
@@ -34,13 +28,11 @@ public class ArrayStorage {
     void delete(String uuid) {
         for (int i = 0; i < counter; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                for (int y = i; y < counter; y++) {
-                    if (this.storage[y] != null) {
-                        this.storage[y] = this.storage[y + 1];
-                    }
-
+                for (int j = i; j < counter - 1; j++) {
+                    storage[j] = storage[j + 1];
                 }
                 counter--;
+                this.storage[counter] = null;
                 break;
             }
 
