@@ -17,32 +17,30 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        int i = storageContainsResume(resume.getUuid());
-        if (i == -1 && counter < storage.length) {
-            storage[counter++] = resume;
-        } else if (i != -1) {
-            System.out.println("Resume " + resume.getUuid() + " already exist");
-        } else if (counter == storage.length) {
+        int index = findIndex(resume.getUuid());
+        if (counter == storage.length) {
             System.out.println("Storage is full");
+        } else if (index != -1) {
+            System.out.println("Resume " + resume.getUuid() + " already exist");
+        } else {
+            storage[counter++] = resume;
         }
     }
 
     public Resume get(String uuid) {
-        int i = storageContainsResume(uuid);
-        if (i != -1) {
-            return storage[i];
-        } else {
-            System.out.println("Resume " + uuid + " not found");
-            return null;
+        int index = findIndex(uuid);
+        if (index != -1) {
+            return storage[index];
         }
+        System.out.println("Resume " + uuid + " not found");
+        return null;
+
     }
 
     public void delete(String uuid) {
-        int i = storageContainsResume(uuid);
-        if (i != -1) {
-            for (int j = i; j < counter - 1; j++) {
-                storage[j] = storage[j + 1];
-            }
+        int index = findIndex(uuid);
+        if (index != -1) {
+            if (counter - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, counter - 1 - index);
             counter--;
             storage[counter] = null;
         } else {
@@ -56,9 +54,7 @@ public class ArrayStorage {
     public Resume[] getAll() {
         Resume[] storageTwo = new Resume[counter];
 
-        for (int i = 0; i < counter; i++) {
-            storageTwo[i] = storage[i];
-        }
+        System.arraycopy(storage, 0, storageTwo, 0, counter);
         return storageTwo;
     }
 
@@ -67,17 +63,17 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int i = storageContainsResume(resume.getUuid());
-        if (i != -1) {
-            storage[i] = resume;
-            System.out.println("Success");
+        int index = findIndex(resume.getUuid());
+        if (index != -1) {
+            storage[index] = resume;
+            System.out.println("Success. Resume  " + storage[index].getUuid() + " was updated");
         } else {
             System.out.println("Resume not found");
         }
     }
 
 
-    public int storageContainsResume(String uuid) {
+    private int findIndex(String uuid) {
         for (int i = -0; i < counter; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
