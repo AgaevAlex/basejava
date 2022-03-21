@@ -2,6 +2,8 @@ package ru.agaev.webapp.storage;
 
 import ru.agaev.webapp.model.Resume;
 
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
@@ -10,9 +12,7 @@ public class ArrayStorage {
     private int counter = 0;
 
     public void clear() {
-        for (int i = 0; i < counter; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, 0, counter, null);
         counter = 0;
     }
 
@@ -52,10 +52,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        Resume[] storageTwo = new Resume[counter];
-
-        System.arraycopy(storage, 0, storageTwo, 0, counter);
-        return storageTwo;
+        return Arrays.copyOf(storage, counter);
     }
 
     public int size() {
@@ -68,13 +65,13 @@ public class ArrayStorage {
             storage[index] = resume;
             System.out.println("Success. Resume  " + storage[index].getUuid() + " was updated");
         } else {
-            System.out.println("Resume not found");
+            System.out.println("Resume " + resume.getUuid() + " not found");
         }
     }
 
 
     private int findIndex(String uuid) {
-        for (int i = -0; i < counter; i++) {
+        for (int i = 0; i < counter; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
             }
