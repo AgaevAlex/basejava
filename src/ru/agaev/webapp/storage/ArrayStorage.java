@@ -8,6 +8,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
+    private int counter = 0;
 
     public void clear() {
         Arrays.fill(storage, 0, counter, null);
@@ -24,8 +25,6 @@ public class ArrayStorage extends AbstractArrayStorage {
             storage[counter++] = resume;
         }
     }
-
-
 
     public void delete(String uuid) {
         int index = findIndex(uuid);

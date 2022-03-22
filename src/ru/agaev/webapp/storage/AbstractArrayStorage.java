@@ -7,10 +7,6 @@ public abstract class AbstractArrayStorage implements Storage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int counter = 0;
 
-    public int size() {
-        return counter;
-    }
-
     public Resume get(String uuid) {
         int index = findIndex(uuid);
         if (index != -1) {
@@ -20,6 +16,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return null;
 
     }
+
 
     protected abstract int findIndex(String uuid);
 }

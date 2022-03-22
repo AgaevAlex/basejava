@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Initial resume class
  */
-public class Resume implements Comparable<Resume>{
+public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private String uuid;
@@ -38,6 +38,11 @@ public class Resume implements Comparable<Resume>{
 
     @Override
     public int compareTo(Resume o) {
+        if (uuid.length() > o.getUuid().length()) {
+            return 1;
+        } else if (uuid.length() < o.getUuid().length()) {
+            return -1;
+        }
         return uuid.compareTo(o.uuid);
     }
 }
