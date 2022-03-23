@@ -7,16 +7,10 @@ import ru.agaev.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
+
     @Override
-    public void save(Resume resume) {
-        int index = findIndex(resume.getUuid());
-        if (count == STORAGE_LIMIT) {
-            System.out.println("Storage is full");
-        } else if (index != -1) {
-            System.out.println("Resume " + resume.getUuid() + " already exist");
-        } else {
-            storage[count++] = resume;
-        }
+    protected void saveResume(Resume resume, int index) {
+        storage[count++] = resume;
     }
 
     @Override

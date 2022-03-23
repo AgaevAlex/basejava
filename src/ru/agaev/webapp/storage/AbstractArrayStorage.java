@@ -9,6 +9,17 @@ public abstract class AbstractArrayStorage implements Storage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int count = 0;
 
+    public void save(Resume resume) {
+        int index = findIndex(resume.getUuid());
+        if (count == STORAGE_LIMIT) {
+            System.out.println("Storage is full");
+        } else if (index >= 0) {
+            System.out.println("Resume " + resume.getUuid() + " already exist");
+        } else {
+            saveResume(resume, index);
+        }
+    }
+
     public void clear() {
         Arrays.fill(storage, 0, count, null);
         count = 0;
@@ -53,6 +64,8 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Resume " + uuid + " not found");
         }
     }
+
+    protected abstract void saveResume(Resume resume, int index);
 
     protected abstract int findIndex(String uuid);
 
