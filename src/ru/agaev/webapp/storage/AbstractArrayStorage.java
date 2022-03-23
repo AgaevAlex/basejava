@@ -7,11 +7,11 @@ import java.util.Arrays;
 public abstract class AbstractArrayStorage implements Storage {
     protected static final int STORAGE_LIMIT = 100000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
-    protected int counter = 0;
+    protected int count = 0;
 
     public void clear() {
-        Arrays.fill(storage, 0, counter, null);
-        counter = 0;
+        Arrays.fill(storage, 0, count, null);
+        count = 0;
     }
 
     public void update(Resume resume) {
@@ -36,20 +36,19 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public Resume[] getAll() {
-        return Arrays.copyOf(storage, counter);
+        return Arrays.copyOf(storage, count);
     }
 
     public int size() {
-        return counter;
+        return count;
     }
-
 
     public void delete(String uuid) {
         int index = findIndex(uuid);
         if (index >= 0) {
-            if (counter - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, counter - 1 - index);
-            counter--;
-            storage[counter] = null;
+            if (count - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, count - 1 - index);
+            count--;
+            storage[count] = null;
         } else {
             System.out.println("Resume " + uuid + " not found");
         }
