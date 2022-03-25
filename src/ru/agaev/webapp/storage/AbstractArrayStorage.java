@@ -17,6 +17,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Resume " + resume.getUuid() + " already exist");
         } else {
             saveResume(resume, index);
+            count++;
         }
     }
 
