@@ -1,5 +1,4 @@
 import ru.agaev.webapp.model.Resume;
-import ru.agaev.webapp.storage.ArrayStorage;
 import ru.agaev.webapp.storage.SortedArrayStorage;
 import ru.agaev.webapp.storage.Storage;
 
@@ -12,7 +11,7 @@ import java.io.InputStreamReader;
  * (just run, no need to understand)
  */
 public class MainArray {
-    private final static Storage ARRAY_STORAGE = new ArrayStorage();
+    private final static Storage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -37,7 +36,6 @@ public class MainArray {
                     break;
                 case "save":
                     r = new Resume();
-                    r.setUuid(uuid);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
@@ -53,8 +51,7 @@ public class MainArray {
                     printAll();
                     break;
                 case "update":
-                    r = new Resume();
-                    r.setUuid(uuid);
+                    r = new Resume(uuid);
                     ARRAY_STORAGE.update(r);
                     printAll();
                     break;
