@@ -1,20 +1,23 @@
 package ru.agaev.webapp.storage;
 
+import ru.agaev.webapp.exception.ExistStorageException;
+import ru.agaev.webapp.exception.NotExistStorageException;
+import ru.agaev.webapp.exception.StorageException;
 import ru.agaev.webapp.model.Resume;
 
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
-    protected static final int STORAGE_LIMIT = 100000;
+    protected static final int STORAGE_LIMIT = 10000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int count = 0;
 
     public void save(Resume resume) {
         int index = findIndex(resume.getUuid());
         if (count == STORAGE_LIMIT) {
-            System.out.println("Storage is full");
+            throw new StorageException("Storage overflow", resume.getUuid());
         } else if (index >= 0) {
-            System.out.println("Resume " + resume.getUuid() + " already exist");
+            throw new ExistStorageException(resume.getUuid());
         } else {
             saveResume(resume, index);
             count++;
@@ -28,11 +31,11 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void update(Resume resume) {
         int index = findIndex(resume.getUuid());
-        if (index != -1) {
+        if (index >= 0) {
             storage[index] = resume;
             System.out.println("Success. Resume  " + storage[index].getUuid() + " was updated");
         } else {
-            System.out.println("Resume " + resume.getUuid() + " not found");
+            throw new NotExistStorageException(resume.getUuid());
         }
 
     }
@@ -42,9 +45,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             return storage[index];
         }
-        System.out.println("Resume " + uuid + " not found");
-        return null;
-
+        throw new NotExistStorageException(uuid);
     }
 
     public Resume[] getAll() {
@@ -62,7 +63,7 @@ public abstract class AbstractArrayStorage implements Storage {
             count--;
             storage[count] = null;
         } else {
-            System.out.println("Resume " + uuid + " not found");
+            throw new NotExistStorageException(uuid);
         }
     }
 
