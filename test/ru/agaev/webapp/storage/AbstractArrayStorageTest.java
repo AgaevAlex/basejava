@@ -28,7 +28,6 @@ public abstract class AbstractArrayStorageTest {
     Resume resume5 = new Resume(UUID_5);
     Resume resume6 = new Resume(UUID_6);
     Resume resume7 = new Resume(UUID_7);
-    Resume[] resumes = new Resume[4];
 
     public AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -41,10 +40,6 @@ public abstract class AbstractArrayStorageTest {
         storage.save(resume2);
         storage.save(resume3);
         storage.save(resume4);
-        resumes[0] = resume1;
-        resumes[1] = resume2;
-        resumes[2] = resume3;
-        resumes[3] = resume4;
     }
 
     @Test
@@ -62,7 +57,7 @@ public abstract class AbstractArrayStorageTest {
                 storage.save(new Resume("uuid" + i));
             }
         } catch (StorageException e) {
-            Assert.fail("Stackoverflow ahead of time");
+            fail("Stackoverflow ahead of time");
         }
         storage.save(resume7);
     }
@@ -91,7 +86,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void get() {
-        Assert.assertEquals(resume1, storage.get(UUID_1));
+        assertEquals(resume1, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -101,13 +96,14 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
+        Resume[] resumes = {resume1, resume2, resume3, resume4};
         assertArrayEquals(resumes, storage.getAll());
         assertEquals(4, storage.getAll().length);
     }
 
     @Test
     public void size() {
-        Assert.assertEquals(4, storage.size());
+        assertEquals(4, storage.size());
     }
 
     @Test(expected = NotExistStorageException.class)
