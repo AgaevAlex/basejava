@@ -8,9 +8,11 @@ import ru.agaev.webapp.exception.NotExistStorageException;
 import ru.agaev.webapp.exception.StorageException;
 import ru.agaev.webapp.model.Resume;
 
+import static ru.agaev.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
+import static org.junit.Assert.*;
 
-public class AbstractArrayStorageTest {
-    private static final int STORAGE_LIMIT = 10000;
+
+public abstract class AbstractArrayStorageTest {
     private final Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -26,7 +28,7 @@ public class AbstractArrayStorageTest {
     Resume resume5 = new Resume(UUID_5);
     Resume resume6 = new Resume(UUID_6);
     Resume resume7 = new Resume(UUID_7);
-
+    Resume[] resumes = new Resume[4];
 
     public AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -39,15 +41,18 @@ public class AbstractArrayStorageTest {
         storage.save(resume2);
         storage.save(resume3);
         storage.save(resume4);
+        resumes[0] = resume1;
+        resumes[1] = resume2;
+        resumes[2] = resume3;
+        resumes[3] = resume4;
     }
 
     @Test
     public void save() {
         storage.save(resume5);
-        Assert.assertEquals(5, storage.size());
-        Assert.assertEquals(resume5, storage.get(resume5.getUuid()));
+        assertEquals(5, storage.size());
+        assertEquals(resume5, storage.get(UUID_5));
     }
-
 
     @Test(expected = StorageException.class)
     public void storageOverflow() {
@@ -70,13 +75,13 @@ public class AbstractArrayStorageTest {
     @Test
     public void clear() {
         storage.clear();
-        Assert.assertEquals(0, storage.size());
+        assertEquals(0, storage.size());
     }
 
     @Test
     public void update() {
         storage.update(resume6);
-        Assert.assertEquals(resume6, storage.get(resume6.getUuid()));
+        assertSame(resume6, storage.get(UUID_6));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -86,7 +91,7 @@ public class AbstractArrayStorageTest {
 
     @Test
     public void get() {
-        Assert.assertEquals(resume1, storage.get(resume1.getUuid()));
+        Assert.assertEquals(resume1, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -96,14 +101,8 @@ public class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] resumes = new Resume[4];
-        resumes[0] = resume1;
-        resumes[1] = resume2;
-        resumes[2] = resume3;
-        resumes[3] = resume4;
-        Assert.assertArrayEquals(resumes, storage.getAll());
-        Assert.assertEquals(4, storage.getAll().length);
-
+        assertArrayEquals(resumes, storage.getAll());
+        assertEquals(4, storage.getAll().length);
     }
 
     @Test
@@ -113,27 +112,26 @@ public class AbstractArrayStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void deleteLast() {
-        storage.delete(resume4.getUuid());
-        Assert.assertEquals(3, storage.size());
-        storage.get(resume4.getUuid());
+        storage.delete(UUID_4);
+        assertEquals(3, storage.size());
+        storage.get(UUID_4);
     }
 
     @Test(expected = NotExistStorageException.class)
     public void deleteFirst() {
-        storage.delete(resume1.getUuid());
+        storage.delete(UUID_1);
         Resume[] resumes = storage.getAll();
-        Assert.assertEquals(3, storage.size());
-        Assert.assertEquals(resume2, resumes[0]);
-        storage.get(resume1.getUuid());
+        assertEquals(3, storage.size());
+        assertEquals(resume2, resumes[0]);
+        storage.get(UUID_1);
     }
 
     @Test(expected = NotExistStorageException.class)
     public void deleteMiddle() {
-        storage.delete(resume3.getUuid());
+        storage.delete(UUID_3);
         Resume[] resumes = storage.getAll();
-        Assert.assertEquals(3, storage.size());
-        Assert.assertEquals(resume4, resumes[2]);
-        storage.get(resume3.getUuid());
+        assertEquals(3, storage.size());
+        assertEquals(resume4, resumes[2]);
+        storage.get(UUID_3);
     }
-
 }
