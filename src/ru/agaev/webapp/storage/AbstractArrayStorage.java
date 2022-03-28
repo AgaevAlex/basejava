@@ -1,7 +1,5 @@
 package ru.agaev.webapp.storage;
 
-import ru.agaev.webapp.exception.ExistStorageException;
-import ru.agaev.webapp.exception.NotExistStorageException;
 import ru.agaev.webapp.exception.StorageException;
 import ru.agaev.webapp.model.Resume;
 
@@ -12,12 +10,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int count = 0;
 
-    public void save(Resume resume) {
-        int index = findIndex(resume.getUuid());
+    @Override
+    protected void doSave(Resume resume, int index) {
         if (count == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
-        } else if (index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
         }
         saveResume(resume, index);
         count++;
@@ -28,24 +24,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         count = 0;
     }
 
-    public void update(Resume resume) {
-        int index = findIndex(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
+    @Override
+    protected void doUpdate(Resume resume, int index) {
         storage[index] = resume;
         System.out.println("Success. Resume  " + storage[index].getUuid() + " was updated");
-
-
     }
 
-    public Resume get(String uuid) {
-        int index = findIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return storage[index];
 
+    @Override
+    protected Resume doGet(int index) {
+        return storage[index];
     }
 
     public Resume[] getAll() {
@@ -56,15 +44,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return count;
     }
 
-    public void delete(String uuid) {
-        int index = findIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+    @Override
+    protected void doRemove(int index) {
         if (count - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, count - 1 - index);
         count--;
         storage[count] = null;
-
     }
 
     protected abstract void saveResume(Resume resume, int index);

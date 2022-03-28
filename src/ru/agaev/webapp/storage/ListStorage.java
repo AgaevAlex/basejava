@@ -1,7 +1,5 @@
 package ru.agaev.webapp.storage;
 
-import ru.agaev.webapp.exception.ExistStorageException;
-import ru.agaev.webapp.exception.NotExistStorageException;
 import ru.agaev.webapp.model.Resume;
 
 import java.util.*;
@@ -10,55 +8,25 @@ public class ListStorage extends AbstractStorage {
     protected LinkedList<Resume> storage = new LinkedList<>();
 
     @Override
-
     public void clear() {
         storage.clear();
     }
 
     @Override
-    public void update(Resume resume) {
-        int index = storage.indexOf(resume);
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
+    protected void doUpdate(Resume resume, int index) {
         storage.set(index, resume);
         System.out.println("Success. Resume  " + storage.get(index) + " was updated");
     }
 
+
     @Override
-    public void save(Resume resume) {
-        int index = storage.indexOf(resume);
-        if (index != -1) {
-            throw new ExistStorageException(resume.getUuid());
-        }
-        storage.add(resume);
+    protected Resume doGet(int index) {
+        return storage.get(index);
     }
 
     @Override
-    public Resume get(String uuid) {
-        for (Resume result : storage) {
-            if (result.getUuid().equals(uuid)) {
-                return result;
-            }
-        }
-        throw new NotExistStorageException(uuid);
-    }
-
-    @Override
-    public void delete(String uuid) {
-        Iterator<Resume> iterator = storage.iterator();
-        boolean deleteCheck = false;
-
-        while (iterator.hasNext()) {
-            Resume r = iterator.next();
-            if (Objects.equals(r.getUuid(), uuid)) {
-                iterator.remove();
-                deleteCheck = true;
-            }
-        }
-        if (!deleteCheck) {
-            throw new NotExistStorageException(uuid);
-        }
+    protected void doRemove(int index) {
+         storage.remove(index);
     }
 
     @Override
@@ -69,6 +37,21 @@ public class ListStorage extends AbstractStorage {
     @Override
     public int size() {
         return storage.size();
+    }
+
+    @Override
+    protected int findIndex(String uuid) {
+        for ( Resume resume : storage){
+            if (resume.getUuid().equals(uuid)){
+                return storage.indexOf(resume);
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    protected void doSave(Resume resume, int index) {
+        storage.add(resume);
     }
 
 
