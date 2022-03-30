@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 public class MainArray {
     private final static Storage ARRAY_STORAGE = new ListStorage();
 
-    public static void main(String[] args) throws IOException , RuntimeException{
+    public static void main(String[] args) throws IOException, RuntimeException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
         while (true) {

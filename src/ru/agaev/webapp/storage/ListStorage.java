@@ -5,7 +5,7 @@ import ru.agaev.webapp.model.Resume;
 import java.util.*;
 
 public class ListStorage extends AbstractStorage {
-    protected LinkedList<Resume> storage = new LinkedList<>();
+    private List<Resume> storage = new LinkedList<>();
 
     @Override
     public void clear() {
@@ -18,7 +18,6 @@ public class ListStorage extends AbstractStorage {
         System.out.println("Success. Resume  " + storage.get(index) + " was updated");
     }
 
-
     @Override
     protected Resume doGet(int index) {
         return storage.get(index);
@@ -26,7 +25,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void doRemove(int index) {
-         storage.remove(index);
+        storage.remove(index);
     }
 
     @Override
@@ -41,12 +40,14 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected int findIndex(String uuid) {
-        for ( Resume resume : storage){
-            if (resume.getUuid().equals(uuid)){
-                return storage.indexOf(resume);
-            }
-        }
-        return -1;
+        Resume expected = new Resume(uuid);
+        return storage.indexOf(expected);
+//        for (Resume resume : storage) {
+//            if (resume.getUuid().equals(uuid)) {
+//                return storage.indexOf(resume);
+//            }
+//        }
+//        return -1;
     }
 
     @Override

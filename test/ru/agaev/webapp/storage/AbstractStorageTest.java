@@ -20,13 +20,13 @@ public class AbstractStorageTest {
     private static final String UUID_5 = "uuid5";
     private static final String UUID_6 = "uuid4";
     private static final String UUID_7 = "testOverflow";
-    Resume resume1 = new Resume(UUID_1);
-    Resume resume2 = new Resume(UUID_2);
-    Resume resume3 = new Resume(UUID_3);
-    Resume resume4 = new Resume(UUID_4);
-    Resume resume5 = new Resume(UUID_5);
-    Resume resume6 = new Resume(UUID_6);
-    Resume resume7 = new Resume(UUID_7);
+    private static final Resume resume1 = new Resume(UUID_1);
+    private static final Resume resume2 = new Resume(UUID_2);
+    private static final Resume resume3 = new Resume(UUID_3);
+    private static final Resume resume4 = new Resume(UUID_4);
+    private static final Resume resume5 = new Resume(UUID_5);
+    private static final Resume resume6 = new Resume(UUID_6);
+    private static final Resume resume7 = new Resume(UUID_7);
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -95,8 +95,8 @@ public class AbstractStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] resumes = {resume1, resume2, resume3, resume4};
-        assertArrayEquals(resumes, storage.getAll());
+        Resume[] expected = {resume1, resume2, resume3, resume4};
+        assertArrayEquals(expected, storage.getAll());
         assertEquals(4, storage.getAll().length);
     }
 
@@ -115,18 +115,18 @@ public class AbstractStorageTest {
     @Test(expected = NotExistStorageException.class)
     public void deleteFirst() {
         storage.delete(UUID_1);
-        Resume[] resumes = storage.getAll();
+        Resume[] expected = storage.getAll();
         assertEquals(3, storage.size());
-        assertEquals(resume2, resumes[0]);
+        assertEquals(resume2, expected[0]);
         storage.get(UUID_1);
     }
 
     @Test(expected = NotExistStorageException.class)
     public void deleteMiddle() {
         storage.delete(UUID_3);
-        Resume[] resumes = storage.getAll();
+        Resume[] expected = storage.getAll();
         assertEquals(3, storage.size());
-        assertEquals(resume4, resumes[2]);
+        assertEquals(resume4, expected[2]);
         storage.get(UUID_3);
     }
 }
