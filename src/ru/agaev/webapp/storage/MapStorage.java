@@ -2,13 +2,11 @@ package ru.agaev.webapp.storage;
 
 import ru.agaev.webapp.model.Resume;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    private Map<String, Resume> storage = new LinkedHashMap<>();
-    private int counter = 0;
+    private final Map<String, Resume> storage = new LinkedHashMap<>();
 
     @Override
     protected int findIndex(String uuid) {
@@ -24,7 +22,6 @@ public class MapStorage extends AbstractStorage {
     protected void doUpdate(Resume resume, int index) {
         storage.put(resume.getUuid(), resume);
         System.out.println("Success. Resume  " + storage.get(resume.getUuid()) + " was updated");
-
     }
 
     @Override

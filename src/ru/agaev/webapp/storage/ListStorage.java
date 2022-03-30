@@ -2,10 +2,11 @@ package ru.agaev.webapp.storage;
 
 import ru.agaev.webapp.model.Resume;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    private List<Resume> storage = new LinkedList<>();
+    private final List<Resume> storage = new LinkedList<>();
 
     @Override
     public void clear() {

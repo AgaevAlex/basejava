@@ -1,5 +1,6 @@
 import ru.agaev.webapp.model.Resume;
-import ru.agaev.webapp.storage.*;
+import ru.agaev.webapp.storage.MapStorage;
+import ru.agaev.webapp.storage.Storage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
