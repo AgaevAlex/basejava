@@ -32,7 +32,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
 
     @Override
-    protected Resume doGet(int index) {
+    protected Resume doGet(int index, String uuid) {
         return storage[index];
     }
 
@@ -45,7 +45,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doRemove(int index) {
+    protected void doRemove(int index, String uuid) {
         if (count - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, count - 1 - index);
         count--;
         storage[count] = null;
