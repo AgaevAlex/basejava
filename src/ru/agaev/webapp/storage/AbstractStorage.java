@@ -5,13 +5,14 @@ import ru.agaev.webapp.exception.NotExistStorageException;
 import ru.agaev.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
+    protected int index;
 
     public void save(Resume resume) {
-        int index = findIndex(resume.getUuid());
-        if (index >= 0) {
+        int searchKey = findIndex(resume.getUuid());
+        if (searchKey >= 0) {
             throw new ExistStorageException(resume.getUuid());
         }
-        doSave(resume, index);
+        doSave(resume);
     }
 
     public void update(Resume resume) {
@@ -19,7 +20,7 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(resume.getUuid());
         }
-        doUpdate(resume, index);
+        doUpdate(resume);
     }
 
     public Resume get(String uuid) {
@@ -27,7 +28,7 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         }
-        return doGet(index, uuid);
+        return doGet(uuid);
     }
 
     @Override
@@ -36,17 +37,17 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         }
-        doRemove(index, uuid);
+        doRemove(uuid);
     }
 
     protected abstract int findIndex(String uuid);
 
-    protected abstract void doSave(Resume resume, int index);
+    protected abstract void doSave(Resume resume);
 
-    protected abstract void doUpdate(Resume resume, int index);
+    protected abstract void doUpdate(Resume resume);
 
-    protected abstract Resume doGet(int index, String uuid);
+    protected abstract Resume doGet(String uuid);
 
-    protected abstract void doRemove(int index, String uuid);
+    protected abstract void doRemove(String uuid);
 
 }

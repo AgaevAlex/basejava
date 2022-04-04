@@ -1,5 +1,6 @@
 package ru.agaev.webapp.storage;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class MapStorageTest extends AbstractStorageTest {
@@ -9,6 +10,7 @@ public class MapStorageTest extends AbstractStorageTest {
     }
 
     @Test
+    @Ignore
     public void storageOverflow() {
     }
 }

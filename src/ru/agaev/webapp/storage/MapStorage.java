@@ -14,23 +14,23 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(Resume resume, int index) {
+    protected void doSave(Resume resume) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void doUpdate(Resume resume, int index) {
+    protected void doUpdate(Resume resume) {
         storage.put(resume.getUuid(), resume);
         System.out.println("Success. Resume  " + storage.get(resume.getUuid()) + " was updated");
     }
 
     @Override
-    protected Resume doGet(int index, String uuid) {
+    protected Resume doGet( String uuid) {
         return storage.get(uuid);
     }
 
     @Override
-    protected void doRemove(int index, String uuid) {
+    protected void doRemove( String uuid) {
         storage.remove(uuid);
     }
 

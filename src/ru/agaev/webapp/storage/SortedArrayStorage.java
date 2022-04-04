@@ -6,9 +6,8 @@ import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
-
     @Override
-    protected void saveResume(Resume resume, int index) {
+    protected void saveResume(Resume resume) {
         if (count == 0) {
             storage[count] = resume;
         } else {
@@ -18,10 +17,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         }
     }
 
-
     @Override
     protected int findIndex(String uuid) {
         Resume searchKey = new Resume(uuid);
-        return Arrays.binarySearch(storage, 0, count, searchKey);
+        this.index = Arrays.binarySearch(storage, 0, count, searchKey);
+        return index;
     }
 }

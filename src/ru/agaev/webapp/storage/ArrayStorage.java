@@ -8,7 +8,7 @@ import ru.agaev.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void saveResume(Resume resume, int index) {
+    protected void saveResume(Resume resume) {
         storage[count] = resume;
     }
 
@@ -16,7 +16,8 @@ public class ArrayStorage extends AbstractArrayStorage {
     protected int findIndex(String uuid) {
         for (int i = 0; i < count; i++) {
             if (storage[i].getUuid().equals(uuid)) {
-                return i;
+                this.index = i;
+                return index;
             }
         }
         return -1;
