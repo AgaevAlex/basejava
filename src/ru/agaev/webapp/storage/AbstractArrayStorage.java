@@ -52,6 +52,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void saveResume(Resume resume);
 
-    protected abstract int findIndex(String uuid);
+    protected abstract void findIndex(String uuid);
 
 }

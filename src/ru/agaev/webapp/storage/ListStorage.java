@@ -40,10 +40,9 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected int findIndex(String uuid) {
+    protected void findIndex(String uuid) {
         Resume expected = new Resume(uuid);
         this.index = storage.indexOf(expected);
-        return storage.indexOf(expected);
     }
 
     @Override

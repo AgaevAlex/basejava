@@ -1,6 +1,5 @@
 import ru.agaev.webapp.model.Resume;
 import ru.agaev.webapp.storage.ListStorage;
-import ru.agaev.webapp.storage.MapStorage;
 import ru.agaev.webapp.storage.Storage;
 
 import java.io.BufferedReader;

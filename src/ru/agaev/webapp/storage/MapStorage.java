@@ -9,8 +9,8 @@ public class MapStorage extends AbstractStorage {
     private final Map<String, Resume> storage = new LinkedHashMap<>();
 
     @Override
-    protected int findIndex(String uuid) {
-        return storage.containsKey(uuid) ? 1 : -1;
+    protected void findIndex(String uuid) {
+        this.index = storage.containsKey(uuid) ? 1 : -1;
     }
 
     @Override
@@ -25,12 +25,12 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume doGet( String uuid) {
+    protected Resume doGet(String uuid) {
         return storage.get(uuid);
     }
 
     @Override
-    protected void doRemove( String uuid) {
+    protected void doRemove(String uuid) {
         storage.remove(uuid);
     }
 
