@@ -14,19 +14,19 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doUpdate(Resume resume, int index) {
-        storage.set(index, resume);
-        System.out.println("Success. Resume  " + storage.get(index) + " was updated");
+    protected void doUpdate(Resume resume, Object searchKey) {
+        storage.set((int) searchKey, resume);
+        System.out.println("Success. Resume  " + storage.get((int) searchKey) + " was updated");
     }
 
     @Override
-    protected Resume doGet(int index, String uuid) {
-        return storage.get(index);
+    protected Resume doGet(Object searchKey) {
+        return storage.get((int) searchKey);
     }
 
     @Override
-    protected void doRemove(int index, String uuid) {
-        storage.remove(index);
+    protected void doRemove(Object searchKey) {
+        storage.remove((int) searchKey);
     }
 
     @Override
@@ -40,19 +40,12 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected int findIndex(String uuid) {
-        Resume expected = new Resume(uuid);
-        return storage.indexOf(expected);
-//        for (Resume resume : storage) {
-//            if (resume.getUuid().equals(uuid)) {
-//                return storage.indexOf(resume);
-//            }
-//        }
-//        return -1;
+    protected Object findIndex(String uuid) {
+        return storage.indexOf(new Resume(uuid));
     }
 
     @Override
-    protected void doSave(Resume resume, int index) {
+    protected void doSave(Resume resume, Object searchKey) {
         storage.add(resume);
     }
 

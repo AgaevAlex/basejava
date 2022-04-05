@@ -8,10 +8,9 @@ import ru.agaev.webapp.exception.StorageException;
 import ru.agaev.webapp.model.Resume;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 import static ru.agaev.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 
-public class AbstractStorageTest {
+public abstract class AbstractStorageTest {
     private final Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";

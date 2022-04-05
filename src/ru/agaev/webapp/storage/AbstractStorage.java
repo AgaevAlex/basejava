@@ -7,46 +7,49 @@ import ru.agaev.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public void save(Resume resume) {
-        int index = findIndex(resume.getUuid());
-        if (index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        }
-        doSave(resume, index);
+        Object searchKey = resumeExists(resume.getUuid());
+        doSave(resume, searchKey);
     }
 
     public void update(Resume resume) {
-        int index = findIndex(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
-        doUpdate(resume, index);
+        Object searchKey = resumeNotExists(resume.getUuid());
+        doUpdate(resume, searchKey);
     }
 
     public Resume get(String uuid) {
-        int index = findIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return doGet(index, uuid);
+        Object searchKey = resumeNotExists(uuid);
+        return doGet(searchKey);
     }
 
-    @Override
     public void delete(String uuid) {
-        int index = findIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        doRemove(index, uuid);
+        Object searchKey = resumeNotExists(uuid);
+        doRemove(searchKey);
     }
 
-    protected abstract int findIndex(String uuid);
+    public Object resumeNotExists(String uuid) {
+        int searchKey = (int) findIndex(uuid);
+        if (searchKey < 0) {
+            throw new NotExistStorageException(uuid);
+        }
+        return searchKey;
+    }
 
-    protected abstract void doSave(Resume resume, int index);
+    public Object resumeExists(String uuid) {
+        int searchKey = (int) findIndex(uuid);
+        if (searchKey >= 0) {
+            throw new ExistStorageException(uuid);
+        }
+        return searchKey;
+    }
 
-    protected abstract void doUpdate(Resume resume, int index);
+    protected abstract Object findIndex(String uuid);
 
-    protected abstract Resume doGet(int index, String uuid);
+    protected abstract void doSave(Resume resume, Object searchKey);
 
-    protected abstract void doRemove(int index, String uuid);
+    protected abstract void doUpdate(Resume resume, Object searchKey);
+
+    protected abstract Resume doGet(Object searchKey);
+
+    protected abstract void doRemove(Object searchKey);
 
 }

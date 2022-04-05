@@ -1,4 +1,5 @@
 import ru.agaev.webapp.model.Resume;
+import ru.agaev.webapp.storage.ListStorage;
 import ru.agaev.webapp.storage.MapStorage;
 import ru.agaev.webapp.storage.Storage;
 
@@ -11,7 +12,7 @@ import java.io.InputStreamReader;
  * (just run, no need to understand)
  */
 public class MainArray {
-    private final static Storage ARRAY_STORAGE = new MapStorage();
+    private final static Storage ARRAY_STORAGE = new ListStorage();
 
     public static void main(String[] args) throws IOException, RuntimeException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
