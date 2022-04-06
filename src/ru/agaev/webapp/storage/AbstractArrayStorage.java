@@ -31,7 +31,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         System.out.println("Success. Resume  " + storage[key].getUuid() + " was updated");
     }
 
-
     @Override
     protected Resume doGet(Object searchKey) {
         return storage[(int) searchKey];
@@ -55,6 +54,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void saveResume(Resume resume, int index);
 
-    protected abstract Object findIndex(String uuid);
+    protected abstract Object findSearchKey(String uuid);
 
 }

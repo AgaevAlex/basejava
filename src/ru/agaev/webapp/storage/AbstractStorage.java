@@ -7,42 +7,40 @@ import ru.agaev.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public void save(Resume resume) {
-        Object searchKey = resumeExists(resume.getUuid());
+        Object searchKey = findSearchKey(resume.getUuid());
+        if (resumeExistOrNot(searchKey)) {
+            throw new ExistStorageException(resume.getUuid());
+        }
         doSave(resume, searchKey);
     }
 
     public void update(Resume resume) {
-        Object searchKey = resumeNotExists(resume.getUuid());
+        Object searchKey = findSearchKey(resume.getUuid());
+        if (!resumeExistOrNot(searchKey)) {
+            throw new NotExistStorageException(resume.getUuid());
+        }
         doUpdate(resume, searchKey);
     }
 
     public Resume get(String uuid) {
-        Object searchKey = resumeNotExists(uuid);
+        Object searchKey = findSearchKey(uuid);
+        if (!resumeExistOrNot(searchKey)) {
+            throw new NotExistStorageException(uuid);
+        }
         return doGet(searchKey);
     }
 
     public void delete(String uuid) {
-        Object searchKey = resumeNotExists(uuid);
+        Object searchKey = findSearchKey(uuid);
+        if (!resumeExistOrNot(searchKey)) {
+            throw new NotExistStorageException(uuid);
+        }
         doRemove(searchKey);
     }
 
-    public Object resumeNotExists(String uuid) {
-        int searchKey = (int) findIndex(uuid);
-        if (searchKey < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return searchKey;
-    }
+    protected abstract boolean resumeExistOrNot(Object searchKey);
 
-    public Object resumeExists(String uuid) {
-        int searchKey = (int) findIndex(uuid);
-        if (searchKey >= 0) {
-            throw new ExistStorageException(uuid);
-        }
-        return searchKey;
-    }
-
-    protected abstract Object findIndex(String uuid);
+    protected abstract Object findSearchKey(String uuid);
 
     protected abstract void doSave(Resume resume, Object searchKey);
 

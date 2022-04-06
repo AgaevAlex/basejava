@@ -1,7 +1,5 @@
 package ru.agaev.webapp.storage;
 
-import ru.agaev.webapp.exception.ExistStorageException;
-import ru.agaev.webapp.exception.NotExistStorageException;
 import ru.agaev.webapp.model.Resume;
 
 import java.util.LinkedHashMap;
@@ -11,7 +9,7 @@ public class MapStorage extends AbstractStorage {
     private final Map<String, Resume> storage = new LinkedHashMap<>();
 
     @Override
-    protected Object findIndex(String uuid) {
+    protected Object findSearchKey(String uuid) {
         if (storage.containsKey(uuid)) {
             return uuid;
         }
@@ -55,20 +53,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Object resumeNotExists(String uuid) {
-        Object searchKey = findIndex(uuid);
-        if (searchKey == null) {
-            throw new NotExistStorageException(uuid);
-        }
-        return searchKey;
-    }
-
-    @Override
-    public Object resumeExists(String uuid) {
-        Object searchKey = findIndex(uuid);
-        if (searchKey != null) {
-            throw new ExistStorageException(uuid);
-        }
-        return searchKey;
+    protected boolean resumeExistOrNot(Object searchKey) {
+        return searchKey != null;
     }
 }
