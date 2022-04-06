@@ -7,35 +7,39 @@ import ru.agaev.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public void save(Resume resume) {
-        Object searchKey = findSearchKey(resume.getUuid());
-        if (resumeExistOrNot(searchKey)) {
-            throw new ExistStorageException(resume.getUuid());
-        }
+        Object searchKey = receiveExistingSearchKey(resume.getUuid());
         doSave(resume, searchKey);
     }
 
     public void update(Resume resume) {
-        Object searchKey = findSearchKey(resume.getUuid());
-        if (!resumeExistOrNot(searchKey)) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
+        Object searchKey = receiveNotExistingSearchKey(resume.getUuid());
         doUpdate(resume, searchKey);
     }
 
     public Resume get(String uuid) {
-        Object searchKey = findSearchKey(uuid);
-        if (!resumeExistOrNot(searchKey)) {
-            throw new NotExistStorageException(uuid);
-        }
+        Object searchKey = receiveNotExistingSearchKey(uuid);
         return doGet(searchKey);
     }
 
     public void delete(String uuid) {
+        Object searchKey = receiveNotExistingSearchKey(uuid);
+        doRemove(searchKey);
+    }
+
+    public Object receiveNotExistingSearchKey(String uuid) {
         Object searchKey = findSearchKey(uuid);
         if (!resumeExistOrNot(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
-        doRemove(searchKey);
+        return searchKey;
+    }
+
+    public Object receiveExistingSearchKey(String uuid) {
+        Object searchKey = findSearchKey(uuid);
+        if (resumeExistOrNot(searchKey)) {
+            throw new ExistStorageException(uuid);
+        }
+        return searchKey;
     }
 
     protected abstract boolean resumeExistOrNot(Object searchKey);
