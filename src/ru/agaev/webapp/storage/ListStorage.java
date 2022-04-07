@@ -2,11 +2,12 @@ package ru.agaev.webapp.storage;
 
 import ru.agaev.webapp.model.Resume;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    private final List<Resume> storage = new LinkedList<>();
+    private final List<Resume> storage = new ArrayList<>();
 
     @Override
     public void clear() {
@@ -30,8 +31,10 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+    public List<Resume> getAllSorted() {
+        List<Resume> result = storage;
+        result.sort(new StorageComparator());
+        return result;
     }
 
     @Override

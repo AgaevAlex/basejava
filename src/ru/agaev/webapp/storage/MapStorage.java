@@ -2,8 +2,7 @@ package ru.agaev.webapp.storage;
 
 import ru.agaev.webapp.model.Resume;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MapStorage extends AbstractStorage {
     private final Map<String, Resume> storage = new LinkedHashMap<>();
@@ -43,8 +42,10 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.values().toArray(new Resume[0]);
+    public List<Resume> getAllSorted() {
+        List<Resume> result = new ArrayList<>(storage.values());
+        result.sort(new StorageComparator());
+        return result;
     }
 
     @Override

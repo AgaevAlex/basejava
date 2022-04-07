@@ -4,6 +4,8 @@ import ru.agaev.webapp.exception.StorageException;
 import ru.agaev.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10000;
@@ -36,8 +38,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[(int) searchKey];
     }
 
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, count);
+    public List<Resume> getAllSorted() {
+        List<Resume> result = Arrays.asList(Arrays.copyOf(storage, count));
+        result.sort(new StorageComparator());
+        return result;
     }
 
     public int size() {
