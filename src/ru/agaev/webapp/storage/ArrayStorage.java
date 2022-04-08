@@ -21,9 +21,4 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
-
-    @Override
-    protected boolean resumeExistOrNot(Object searchKey) {
-        return (int) searchKey >= 0;
-    }
 }

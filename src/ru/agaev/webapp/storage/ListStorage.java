@@ -3,7 +3,6 @@ package ru.agaev.webapp.storage;
 import ru.agaev.webapp.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
@@ -31,10 +30,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> result = storage;
-        result.sort(new StorageComparator());
-        return result;
+    protected List<Resume> doList() {
+        return storage;
     }
 
     @Override
@@ -43,13 +40,13 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean resumeExistOrNot(Object searchKey) {
+    protected boolean isExist(Object searchKey) {
         return (int) searchKey >= 0;
     }
 
     @Override
     protected Object findSearchKey(String uuid) {
-        return storage.indexOf(new Resume(uuid));
+        return storage.indexOf(new Resume(uuid, " "));
     }
 
     @Override

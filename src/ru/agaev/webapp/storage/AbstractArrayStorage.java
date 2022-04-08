@@ -4,13 +4,22 @@ import ru.agaev.webapp.exception.StorageException;
 import ru.agaev.webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int count = 0;
+
+    @Override
+    protected List<Resume> doList() {
+        return Arrays.asList(Arrays.copyOf(storage, count));
+    }
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return (int) searchKey >= 0;
+    }
 
     @Override
     protected void doSave(Resume resume, Object searchKey) {
@@ -38,11 +47,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[(int) searchKey];
     }
 
-    public List<Resume> getAllSorted() {
-        List<Resume> result = Arrays.asList(Arrays.copyOf(storage, count));
-        result.sort(new StorageComparator());
-        return result;
-    }
 
     public int size() {
         return count;
