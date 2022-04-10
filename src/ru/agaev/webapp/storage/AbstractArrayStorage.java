@@ -12,7 +12,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int count = 0;
 
     @Override
-    protected List<Resume> doList() {
+    protected List<Resume> doCopyList() {
         return Arrays.asList(Arrays.copyOf(storage, count));
     }
 
@@ -62,6 +62,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void saveResume(Resume resume, int index);
 
-    protected abstract Object findSearchKey(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
 }

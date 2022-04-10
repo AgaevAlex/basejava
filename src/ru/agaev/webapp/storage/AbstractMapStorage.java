@@ -32,7 +32,7 @@ public abstract class AbstractMapStorage extends AbstractStorage {
     }
 
     @Override
-    protected List<Resume> doList() {
+    protected List<Resume> doCopyList() {
         return new ArrayList<>(storage.values());
     }
 
@@ -46,5 +46,5 @@ public abstract class AbstractMapStorage extends AbstractStorage {
 
     protected abstract void doRemove(Object searchKey);
 
-    protected abstract Object findSearchKey(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 }

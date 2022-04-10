@@ -5,7 +5,7 @@ import ru.agaev.webapp.model.Resume;
 public class MapUuidStorage extends AbstractMapStorage {
 
     @Override
-    protected Object findSearchKey(String uuid) {
+    protected Object getSearchKey(String uuid) {
         return storage.containsKey(uuid) ? uuid : null;
     }
 

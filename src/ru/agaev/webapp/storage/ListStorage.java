@@ -30,7 +30,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected List<Resume> doList() {
+    protected List<Resume> doCopyList() {
         return storage;
     }
 
@@ -45,14 +45,17 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object findSearchKey(String uuid) {
-        return storage.indexOf(new Resume(uuid, " "));
+    protected Integer getSearchKey(String uuid) {
+        for (int i = 0; i < storage.size(); i++) {
+            if (storage.get(i).getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     protected void doSave(Resume resume, Object searchKey) {
         storage.add(resume);
     }
-
-
 }
