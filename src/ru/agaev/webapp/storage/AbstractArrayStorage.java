@@ -6,7 +6,7 @@ import ru.agaev.webapp.model.Resume;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int count = 0;
@@ -17,16 +17,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return (int) searchKey >= 0;
+    protected boolean isExist(Integer searchKey) {
+        return searchKey >= 0;
     }
 
     @Override
-    protected void doSave(Resume resume, Object searchKey) {
+    protected void doSave(Resume resume, Integer searchKey) {
         if (count == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
-        saveResume(resume, (int) searchKey);
+        saveResume(resume, searchKey);
         count++;
     }
 
@@ -36,15 +36,15 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doUpdate(Resume resume, Object searchKey) {
-        int key = (int) searchKey;
+    protected void doUpdate(Resume resume, Integer searchKey) {
+        int key = searchKey;
         storage[key] = resume;
         System.out.println("Success. Resume  " + storage[key].getUuid() + " was updated");
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        return storage[(int) searchKey];
+    protected Resume doGet(Integer searchKey) {
+        return storage[searchKey];
     }
 
 
@@ -53,8 +53,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doRemove(Object searchKey) {
-        int key = (int) searchKey;
+    protected void doRemove(Integer searchKey) {
+        int key = searchKey;
         if (count - 1 - key >= 0) System.arraycopy(storage, key + 1, storage, key, count - 1 - key);
         count--;
         storage[count] = null;
@@ -62,6 +62,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void saveResume(Resume resume, int index);
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 
 }

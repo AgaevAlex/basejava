@@ -2,20 +2,20 @@ package ru.agaev.webapp.storage;
 
 import ru.agaev.webapp.model.Resume;
 
-public class MapUuidStorage extends AbstractMapStorage {
+public class MapUuidStorage extends AbstractMapStorage<String> {
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected String getSearchKey(String uuid) {
         return storage.containsKey(uuid) ? uuid : null;
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        return storage.get((String) searchKey);
+    protected Resume doGet(String searchKey) {
+        return storage.get(searchKey);
     }
 
     @Override
-    protected void doRemove(Object searchKey) {
-        storage.remove((String) searchKey);
+    protected void doRemove(String searchKey) {
+        storage.remove(searchKey);
     }
 }

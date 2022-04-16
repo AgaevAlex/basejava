@@ -5,7 +5,7 @@ import ru.agaev.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
     private final List<Resume> storage = new ArrayList<>();
 
     @Override
@@ -14,19 +14,19 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doUpdate(Resume resume, Object searchKey) {
-        storage.set((int) searchKey, resume);
-        System.out.println("Success. Resume  " + storage.get((int) searchKey) + " was updated");
+    protected void doUpdate(Resume resume, Integer searchKey) {
+        storage.set(searchKey, resume);
+        System.out.println("Success. Resume  " + storage.get(searchKey) + " was updated");
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        return storage.get((int) searchKey);
+    protected Resume doGet(Integer searchKey) {
+        return storage.get(searchKey);
     }
 
     @Override
-    protected void doRemove(Object searchKey) {
-        storage.remove((int) searchKey);
+    protected void doRemove(Integer searchKey) {
+        storage.remove(searchKey.intValue());
     }
 
     @Override
@@ -40,22 +40,19 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return (int) searchKey >= 0;
+    protected boolean isExist(Integer searchKey) {
+        return searchKey >= 0;
     }
 
     @Override
     protected Integer getSearchKey(String uuid) {
-        for (int i = 0; i < storage.size(); i++) {
-            if (storage.get(i).getUuid().equals(uuid)) {
-                return i;
-            }
-        }
-        return -1;
+        return storage.indexOf(new Resume(uuid, " "));
     }
 
     @Override
-    protected void doSave(Resume resume, Object searchKey) {
+    protected void doSave(Resume resume, Integer searchKey) {
         storage.add(resume);
     }
+
+
 }
