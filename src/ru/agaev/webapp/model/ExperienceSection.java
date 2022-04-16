@@ -33,8 +33,7 @@ public class ExperienceSection extends AbstractSection {
 
     @Override
     public String toString() {
-        return "ExperienceSection{" +
-                "startDate=" + startDate +
+        return "startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", company='" + company + '\'' +
                 ", position='" + position + '\'' +
