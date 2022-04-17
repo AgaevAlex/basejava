@@ -11,17 +11,17 @@ public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK> {
     protected final Map<String, Resume> storage = new LinkedHashMap<>();
 
     @Override
-    protected boolean isExist(SK searchKey) {
-        return searchKey != null;
+    protected boolean isExist(SK index) {
+        return index != null;
     }
 
     @Override
-    protected void doSave(Resume resume, SK searchKey) {
+    protected void doSave(Resume resume, SK index) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void doUpdate(Resume resume, SK searchKey) {
+    protected void doUpdate(Resume resume, SK index) {
         storage.put(resume.getUuid(), resume);
         System.out.println("Success. Resume  " + storage.get(resume.getUuid()) + " was updated");
     }
@@ -32,7 +32,7 @@ public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK> {
     }
 
     @Override
-    protected List<Resume> doCopyList() {
+    protected List<Resume> getListResume() {
         return new ArrayList<>(storage.values());
     }
 
@@ -42,9 +42,9 @@ public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK> {
     }
 
 
-    protected abstract Resume doGet(SK searchKey);
+    protected abstract Resume doGet(SK index);
 
-    protected abstract void doRemove(SK searchKey);
+    protected abstract void doRemove(SK index);
 
-    protected abstract SK getSearchKey(String uuid);
+    protected abstract SK findSearchKey(String uuid);
 }

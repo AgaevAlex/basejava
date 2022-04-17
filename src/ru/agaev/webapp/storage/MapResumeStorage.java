@@ -5,7 +5,7 @@ import ru.agaev.webapp.model.Resume;
 public class MapResumeStorage extends AbstractMapStorage<Resume> {
 
     @Override
-    protected Resume getSearchKey(String uuid) {
+    protected Resume findSearchKey(String uuid) {
         return storage.getOrDefault(uuid, null);
     }
 
@@ -16,7 +16,6 @@ public class MapResumeStorage extends AbstractMapStorage<Resume> {
 
     @Override
     protected void doRemove(Resume searchKey) {
-        Resume result = searchKey;
-        storage.remove(result.getUuid());
+        storage.remove(searchKey.getUuid());
     }
 }

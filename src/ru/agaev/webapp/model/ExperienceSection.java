@@ -3,7 +3,7 @@ package ru.agaev.webapp.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class ExperienceSection extends AbstractSection {
+public class ExperienceSection {
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final String company;

@@ -14,23 +14,23 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void doUpdate(Resume resume, Integer searchKey) {
-        storage.set(searchKey, resume);
-        System.out.println("Success. Resume  " + storage.get(searchKey) + " was updated");
+    protected void doUpdate(Resume resume, Integer index) {
+        storage.set(index, resume);
+        System.out.println("Success. Resume  " + storage.get(index) + " was updated");
     }
 
     @Override
-    protected Resume doGet(Integer searchKey) {
-        return storage.get(searchKey);
+    protected Resume doGet(Integer index) {
+        return storage.get(index);
     }
 
     @Override
-    protected void doRemove(Integer searchKey) {
-        storage.remove(searchKey.intValue());
+    protected void doRemove(Integer index) {
+        storage.remove(index.intValue());
     }
 
     @Override
-    protected List<Resume> doCopyList() {
+    protected List<Resume> getListResume() {
         return storage;
     }
 
@@ -40,17 +40,22 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected boolean isExist(Integer searchKey) {
-        return searchKey >= 0;
+    protected boolean isExist(Integer index) {
+        return index >= 0;
     }
 
     @Override
-    protected Integer getSearchKey(String uuid) {
-        return storage.indexOf(new Resume(uuid, " "));
+    protected Integer findSearchKey(String uuid) {
+        for (int i = 0; i < storage.size(); i++) {
+            if (storage.get(i).getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
-    protected void doSave(Resume resume, Integer searchKey) {
+    protected void doSave(Resume resume, Integer index) {
         storage.add(resume);
     }
 
