@@ -65,7 +65,7 @@ public class Resume implements Comparable<Resume> {
         return "Resume{" +
                 "uuid='" + uuid + '\'' +
                 ", fullName='" + fullName + '\'' +
-                '}' + "Контанкты \n" + contacts + "\n" + "Основные данные \n" + sections + "\n" + "Опыт работы \n" + experience;
+                '}' + "Контанкты \n" + contacts + "\n" + "Основные данные \n" + sections  ;
     }
 
     @Override

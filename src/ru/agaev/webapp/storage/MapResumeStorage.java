@@ -10,12 +10,12 @@ public class MapResumeStorage extends AbstractMapStorage<Resume> {
     }
 
     @Override
-    protected Resume doGet(Resume searchKey) {
-        return searchKey;
+    protected Resume doGet(Resume key) {
+        return key;
     }
 
     @Override
-    protected void doRemove(Resume searchKey) {
-        storage.remove(searchKey.getUuid());
+    protected void doRemove(Resume key) {
+        storage.remove(key.getUuid());
     }
 }

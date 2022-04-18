@@ -36,8 +36,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void doUpdate(Resume resume, Integer key) {
-        int index = key;
+    protected void doUpdate(Resume resume, Integer ind) {
+        int index = ind;
         storage[index] = resume;
         System.out.println("Success. Resume  " + storage[index].getUuid() + " was updated");
     }
@@ -53,8 +53,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void doRemove(Integer key) {
-        int index = key;
+    protected void doRemove(Integer ind) {
+        int index = ind;
         if (count - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, count - 1 - index);
         count--;
         storage[count] = null;
