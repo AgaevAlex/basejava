@@ -1,6 +1,5 @@
 package ru.agaev.webapp.model;
 
-import java.net.URL;
 import java.util.Objects;
 
 public class Link {

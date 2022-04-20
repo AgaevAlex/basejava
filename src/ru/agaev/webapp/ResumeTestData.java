@@ -1,4 +1,3 @@
-
 package ru.agaev.webapp;
 
 import ru.agaev.webapp.model.*;
@@ -9,7 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ResumeTestData {
-    public Resume createResume(String fullName, String uuid) {
+    public static void main(String[] args) {
+        System.out.println(createResume("Alex agaev", "1"));
+    }
+
+    public static Resume createResume(String fullName, String uuid) {
         Resume resume = new Resume(uuid, fullName);
 
         resume.addContact(ContactType.PHONE, "+7(921) 855-0482");
@@ -30,15 +33,15 @@ public class ResumeTestData {
         resume.addSection(SectionType.QUALIFICATIONS, new ListSection(qualifications));
 
 
-        OrganizationInfo info1 = new OrganizationInfo(LocalDate.parse("2013-10-01"), LocalDate.now(), "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
-        OrganizationInfo info2 = new OrganizationInfo(LocalDate.parse("2014-10-01"), LocalDate.parse("2016-01-01"), "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
-        OrganizationInfo info3 = new OrganizationInfo(LocalDate.parse("2014-10-01"), LocalDate.parse("2016-01-02"), "Java архитектор", "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python");
-        List<OrganizationInfo> listInfo = new ArrayList<>();
+        Experience info1 = new Experience(LocalDate.parse("2013-10-01"), LocalDate.now(), "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
+        Experience info2 = new Experience(LocalDate.parse("2014-10-01"), LocalDate.parse("2016-01-01"), "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
+        Experience info3 = new Experience(LocalDate.parse("2014-10-01"), LocalDate.parse("2016-01-02"), "Java архитектор", "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python");
+        List<Experience> listInfo = new ArrayList<>();
         listInfo.add(info1);
         listInfo.add(info2);
         listInfo.add(info3);
 
-        List<OrganizationInfo> listInfo2 = new ArrayList<>();
+        List<Experience> listInfo2 = new ArrayList<>();
         listInfo2.add(info3);
         Organization organization1 = new Organization("Java Online Projects", "https://javaops.ru/", listInfo);
         Organization organization2 = new Organization("Yota", "https://www.yota.ru/", listInfo2);
@@ -47,7 +50,6 @@ public class ResumeTestData {
         listExperience.add(organization2);
         OrganizationSection experience1 = new OrganizationSection(listExperience);
         resume.addSection(SectionType.EXPERIENCE, experience1);
-
 
         return resume;
     }

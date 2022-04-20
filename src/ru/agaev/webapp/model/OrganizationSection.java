@@ -10,6 +10,7 @@ public class OrganizationSection extends AbstractSection {
     public OrganizationSection(List<Organization> experience) {
         this.experience = experience;
     }
+
     public OrganizationSection(Organization experience) {
         this.experience.add(experience);
     }

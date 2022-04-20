@@ -4,12 +4,13 @@ import ru.agaev.webapp.exception.ExistStorageException;
 import ru.agaev.webapp.exception.NotExistStorageException;
 import ru.agaev.webapp.model.Resume;
 
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
 public abstract class AbstractStorage<SK> implements Storage {
     private static final Logger log = Logger.getLogger(AbstractStorage.class.getName());
+    protected Comparator<Resume> comparator = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
     protected abstract List<Resume> getListResume();
 
@@ -27,7 +28,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     public List<Resume> getAllSorted() {
         List<Resume> result = getListResume();
-        Collections.sort(result);
+        result.sort(comparator);
         return result;
     }
 

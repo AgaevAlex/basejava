@@ -14,8 +14,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
-    private static final ResumeTestData resumeTestData = new ResumeTestData();
-    protected final Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
@@ -23,13 +21,14 @@ public abstract class AbstractStorageTest {
     private static final String UUID_5 = "uuid5";
     private static final String UUID_6 = "uuid4";
     private static final String UUID_7 = "testOverflow";
-    private static final Resume resume1 = resumeTestData.createResume("test1", UUID_1);
-    private static final Resume resume2 = resumeTestData.createResume("test2", UUID_2);
-    private static final Resume resume3 = resumeTestData.createResume("test3", UUID_3);
-    private static final Resume resume4 = resumeTestData.createResume("test4", UUID_4);
-    private static final Resume resume5 = resumeTestData.createResume("test5", UUID_5);
+    protected static final Resume resume7 = ResumeTestData.createResume("test7", UUID_7);
+    private static final Resume resume1 = ResumeTestData.createResume("test1", UUID_1);
+    private static final Resume resume2 = ResumeTestData.createResume("test2", UUID_2);
+    private static final Resume resume3 = ResumeTestData.createResume("test3", UUID_3);
+    private static final Resume resume4 = ResumeTestData.createResume("test4", UUID_4);
     private static final Resume resume6 = resume4;
-    protected static final Resume resume7 = resumeTestData.createResume("test7", UUID_7);
+    private static final Resume resume5 = ResumeTestData.createResume("test5", UUID_5);
+    protected final Storage storage;
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;

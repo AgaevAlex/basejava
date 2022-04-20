@@ -15,13 +15,20 @@ public class Resume implements Comparable<Resume> {
     private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
-
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
     }
 
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
+        this.fullName = fullName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
@@ -33,7 +40,6 @@ public class Resume implements Comparable<Resume> {
         contacts.get(contactType);
     }
 
-
     public void addSection(SectionType sectionType, AbstractSection section) {
         sections.put(sectionType, section);
     }
@@ -41,7 +47,6 @@ public class Resume implements Comparable<Resume> {
     public void getSection(SectionType contactType) {
         sections.get(contactType);
     }
-
 
     public String getUuid() {
         return uuid;
@@ -65,7 +70,7 @@ public class Resume implements Comparable<Resume> {
         return "Resume{" +
                 "uuid='" + uuid + '\'' +
                 ", fullName='" + fullName + '\'' +
-                '}' + "Контанкты \n" + contacts + "\n" + "Основные данные \n" + sections  ;
+                '}' + "Контанкты \n" + contacts + "\n" + "Основные данные \n" + sections;
     }
 
     @Override
@@ -77,6 +82,4 @@ public class Resume implements Comparable<Resume> {
         }
         return uuid.compareTo(o.uuid);
     }
-
-
 }

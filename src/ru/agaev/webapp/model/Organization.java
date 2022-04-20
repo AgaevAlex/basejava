@@ -11,21 +11,21 @@ import java.util.Objects;
  */
 public class Organization {
     private final Link homePage;
-    private List<OrganizationInfo> organizationInfos = new ArrayList<>();
+    private List<Experience> experiences = new ArrayList<>();
 
     public Organization(String name, String url, LocalDate startDate, LocalDate endDate, String title, String description) {
         this.homePage = new Link(name, url);
-        organizationInfos.add(new OrganizationInfo(startDate, endDate, title, description));
+        experiences.add(new Experience(startDate, endDate, title, description));
     }
 
-    public Organization(String name, String url, List<OrganizationInfo> organizationInfos) {
+    public Organization(String name, String url, List<Experience> experiences) {
         this.homePage = new Link(name, url);
-        this.organizationInfos = organizationInfos;
+        this.experiences = experiences;
     }
 
-    public Organization(String name, String url, OrganizationInfo info) {
+    public Organization(String name, String url, Experience info) {
         this.homePage = new Link(name, url);
-        this.organizationInfos.add(info);
+        this.experiences.add(info);
     }
 
     @Override
@@ -33,19 +33,19 @@ public class Organization {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
-        return Objects.equals(homePage, that.homePage) && Objects.equals(organizationInfos, that.organizationInfos);
+        return Objects.equals(homePage, that.homePage) && Objects.equals(experiences, that.experiences);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(homePage, organizationInfos);
+        return Objects.hash(homePage, experiences);
     }
 
     @Override
     public String toString() {
         return "Organization{" +
                 "homePage=" + homePage +
-                "\n, intervalDates=" + organizationInfos +
+                "\n, intervalDates=" + experiences +
                 '}';
     }
 }
