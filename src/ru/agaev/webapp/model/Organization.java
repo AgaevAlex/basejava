@@ -1,5 +1,6 @@
 package ru.agaev.webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,9 @@ import java.util.Objects;
  * gkislin
  * 19.07.2016
  */
-public class Organization {
+public class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final Link homePage;
     private List<Experience> experiences = new ArrayList<>();
 

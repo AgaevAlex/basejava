@@ -1,10 +1,13 @@
 package ru.agaev.webapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class OrganizationSection extends AbstractSection {
+public class OrganizationSection extends AbstractSection implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private List<Organization> experience = new ArrayList<>();
 
     public OrganizationSection(List<Organization> experience) {
