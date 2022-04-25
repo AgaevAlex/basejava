@@ -1,14 +1,20 @@
 package ru.agaev.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class OrganizationSection extends AbstractSection implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private List<Organization> experience = new ArrayList<>();
+
+    public OrganizationSection() {
+    }
 
     public OrganizationSection(List<Organization> experience) {
         this.experience = experience;

@@ -1,12 +1,19 @@
 package ru.agaev.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Objects;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class TextSection extends AbstractSection implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static long serialVersionUID = 1L;
+    private String text;
 
-    private final String text;
+    public TextSection() {
+    }
 
     public TextSection(String text) {
         Objects.requireNonNull(text, "content must not be null");
