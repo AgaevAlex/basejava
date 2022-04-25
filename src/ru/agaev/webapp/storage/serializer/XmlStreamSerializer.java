@@ -1,4 +1,4 @@
-package ru.agaev.webapp.serializer;
+package ru.agaev.webapp.storage.serializer;
 
 import ru.agaev.webapp.model.*;
 import ru.agaev.webapp.storage.Strategy;

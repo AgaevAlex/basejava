@@ -2,6 +2,7 @@ package ru.agaev.webapp.storage;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import ru.agaev.webapp.storage.serializer.JsonStreamSerializer;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -12,7 +13,8 @@ import org.junit.runners.Suite;
         MapResumeStorageTest.class,
         ObjectStreamStorageTest.class,
         ObjectStreamPathStorageTest.class,
-        XmlPathStorageTest.class
+        XmlPathStorageTest.class,
+        JsonStreamSerializer.class
 })
 public class AllStorageTest {
 }

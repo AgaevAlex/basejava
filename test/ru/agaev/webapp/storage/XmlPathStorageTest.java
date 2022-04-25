@@ -1,6 +1,6 @@
 package ru.agaev.webapp.storage;
 
-import ru.agaev.webapp.serializer.XmlStreamSerializer;
+import ru.agaev.webapp.storage.serializer.XmlStreamSerializer;
 
 public class XmlPathStorageTest extends AbstractStorageTest {
 
