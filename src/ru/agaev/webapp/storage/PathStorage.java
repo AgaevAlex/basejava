@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -28,18 +27,11 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getListResume() {
-        List<Resume> result = new ArrayList<>();
-        try {
-            List<Path> lines = Files.walk(directory)
-                    .filter(Files::isRegularFile)
-                    .collect(Collectors.toList());
-            for (Path path : lines) {
-                result.add(strategy.doRead(Files.newInputStream(path)));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
+        return getListFiles()
+                .filter(Files::isRegularFile)
+                .map(this::doGet)
+                .collect(Collectors.toList());
+
     }
 
     @Override
@@ -48,8 +40,8 @@ public class PathStorage extends AbstractStorage<Path> {
     }
 
     @Override
-    protected Path findSearchKey(String uuid) {
-        return Paths.get(String.valueOf(directory), uuid);
+    protected Path getSearchKey(String uuid) {
+        return directory.resolve(uuid);
     }
 
     @Override
@@ -76,9 +68,9 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             return strategy.doRead(Files.newInputStream(path));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new StorageException("File write error", path.toString(), e);
         }
-        return null;
+
     }
 
     @Override
@@ -86,28 +78,26 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.deleteIfExists(path);
         } catch (IOException e) {
-            throw new StorageException("File not exist", path.toString());
+            throw new StorageException("File not exist", path.toString(), e);
         }
 
     }
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).parallel().forEach(this::doRemove);
-        } catch (IOException E) {
-            throw new StorageException("Path delete error", null);
-        }
+        getListFiles().parallel().forEach(this::doRemove);
     }
 
     @Override
     public int size() {
-        int count = 0;
-        try (Stream<Path> files = Files.list(directory)) {
-            count = (int) files.count();
+        return (int) getListFiles().count();
+    }
+
+    private Stream<Path> getListFiles() {
+        try {
+            return Files.list(directory);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new StorageException("directory read errir", e);
         }
-        return count;
     }
 }
