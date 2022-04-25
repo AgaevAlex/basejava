@@ -1,11 +1,19 @@
 package ru.agaev.webapp.exception;
 
 public class StorageException extends RuntimeException {
-    private final String uuid;
+    private String uuid;
+
+    public StorageException(String message) {
+        super(message);
+    }
 
     public StorageException(String message, String uuid) {
         super(message);
         this.uuid = uuid;
+    }
+
+    public StorageException(String message, Exception e) {
+        super(message, e);
     }
 
     public StorageException(String message, String uuid, Exception e) {

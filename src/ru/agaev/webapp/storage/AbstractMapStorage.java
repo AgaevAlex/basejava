@@ -46,5 +46,5 @@ public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK> {
 
     protected abstract void doRemove(SK key);
 
-    protected abstract SK findSearchKey(String uuid);
+    protected abstract SK getSearchKey(String uuid);
 }

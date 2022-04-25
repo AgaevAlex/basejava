@@ -28,13 +28,12 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected List<Resume> getListResume() {
         List<Resume> result = new ArrayList<>();
-        if (directory.list() != null) {
-            for (File file : Objects.requireNonNull(directory.listFiles())) {
-                try {
-                    result.add(strategy.doRead(new BufferedInputStream(new FileInputStream(file))));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        nullChecker();
+        for (File file : directory.listFiles()) {
+            try {
+                result.add(strategy.doRead(new BufferedInputStream(new FileInputStream(file))));
+            } catch (IOException e) {
+                throw new StorageException("File read error", file.getName(), e);
             }
         }
         return result;
@@ -46,7 +45,7 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected File findSearchKey(String uuid) {
+    protected File getSearchKey(String uuid) {
         return new File(directory, uuid);
     }
 
@@ -75,9 +74,8 @@ public class FileStorage extends AbstractStorage<File> {
         try {
             return strategy.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new StorageException("File write error", file.getName(), e);
         }
-        return null;
     }
 
     @Override
@@ -87,17 +85,20 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        if (directory.list() != null) {
-            for (File file : Objects.requireNonNull(directory.listFiles())) {
-                file.delete();
-            }
+        nullChecker();
+        for (File file : directory.listFiles()) {
+            file.delete();
         }
-//        directory.delete();
-
     }
 
     @Override
     public int size() {
-        return Objects.requireNonNull(directory.list()).length;
+        nullChecker();
+        return directory.list().length;
+    }
+    private void nullChecker (){
+        if (directory.listFiles() == null) {
+            throw new StorageException("Directory read error");
+        }
     }
 }
