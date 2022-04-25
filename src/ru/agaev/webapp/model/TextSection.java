@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TextSection extends AbstractSection implements Serializable {
+public class TextSection extends Section implements Serializable {
     private static long serialVersionUID = 1L;
     private String text;
 
