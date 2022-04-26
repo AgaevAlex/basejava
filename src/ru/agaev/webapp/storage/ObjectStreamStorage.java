@@ -2,10 +2,11 @@ package ru.agaev.webapp.storage;
 
 import ru.agaev.webapp.exception.StorageException;
 import ru.agaev.webapp.model.Resume;
+import ru.agaev.webapp.storage.serializer.StreamSerializer;
 
 import java.io.*;
 
-public class ObjectStreamStorage implements Strategy {
+public class ObjectStreamStorage implements StreamSerializer {
 
 
     @Override

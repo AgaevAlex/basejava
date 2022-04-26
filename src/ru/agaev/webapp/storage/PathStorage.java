@@ -2,6 +2,7 @@ package ru.agaev.webapp.storage;
 
 import ru.agaev.webapp.exception.StorageException;
 import ru.agaev.webapp.model.Resume;
+import ru.agaev.webapp.storage.serializer.StreamSerializer;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,10 +15,10 @@ import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
-    private Strategy strategy;
+    private StreamSerializer streamSerializer;
 
-    protected PathStorage(String dir, Strategy strategy) {
-        this.strategy = strategy;
+    protected PathStorage(String dir, StreamSerializer streamSerializer) {
+        this.streamSerializer = streamSerializer;
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
@@ -57,7 +58,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Resume r, Path path) {
         try {
-            strategy.doWrite(r, Files.newOutputStream(path));
+            streamSerializer.doWrite(r, Files.newOutputStream(path));
         } catch (IOException e) {
             throw new StorageException("Path write error", r.getUuid(), e);
         }
@@ -66,7 +67,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return strategy.doRead(Files.newInputStream(path));
+            return streamSerializer.doRead(Files.newInputStream(path));
         } catch (IOException e) {
             throw new StorageException("File write error", path.toString(), e);
         }

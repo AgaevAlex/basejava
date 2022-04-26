@@ -1,13 +1,12 @@
 package ru.agaev.webapp.storage.serializer;
 
 import ru.agaev.webapp.model.*;
-import ru.agaev.webapp.storage.Strategy;
 import ru.agaev.webapp.util.XmlParser;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-public class XmlStreamSerializer implements Strategy {
+public class XmlStreamSerializer implements StreamSerializer {
     private XmlParser xmlParser;
 
     public XmlStreamSerializer() {
