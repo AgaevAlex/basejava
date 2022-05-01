@@ -4,6 +4,8 @@ import ru.agaev.webapp.exception.StorageException;
 import ru.agaev.webapp.model.Resume;
 import ru.agaev.webapp.storage.serializer.StreamSerializer;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,7 +52,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("Couldn't create Path " + path, path.toString(), e);
+            throw new StorageException("Couldn't create path " + path, getFileName(path), e);
         }
         doUpdate(r, path);
     }
@@ -58,7 +60,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Resume r, Path path) {
         try {
-            streamSerializer.doWrite(r, Files.newOutputStream(path));
+            streamSerializer.doWrite(r, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Path write error", r.getUuid(), e);
         }
@@ -67,9 +69,9 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return streamSerializer.doRead(Files.newInputStream(path));
+            return streamSerializer.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("File write error", path.toString(), e);
+            throw new StorageException("File write error", getFileName(path), e);
         }
 
     }
@@ -79,7 +81,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.deleteIfExists(path);
         } catch (IOException e) {
-            throw new StorageException("File not exist", path.toString(), e);
+            throw new StorageException("File not exist", getFileName(path), e);
         }
 
     }
@@ -94,11 +96,15 @@ public class PathStorage extends AbstractStorage<Path> {
         return (int) getListFiles().count();
     }
 
+    private String getFileName(Path path) {
+        return path.getFileName().toString();
+    }
+
     private Stream<Path> getListFiles() {
         try {
             return Files.list(directory);
         } catch (IOException e) {
-            throw new StorageException("directory read errir", e);
+            throw new StorageException("Directory read error", e);
         }
     }
 }

@@ -24,6 +24,10 @@ public class OrganizationSection extends Section implements Serializable {
         this.experience.add(experience);
     }
 
+    public List<Organization> getExperience() {
+        return experience;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

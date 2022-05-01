@@ -4,7 +4,7 @@ import ru.agaev.webapp.model.Resume;
 import ru.agaev.webapp.storage.SortedArrayStorage;
 
 /**
- * Test for your ru.agaev.webapp.storage.ArrayStorage implementation
+ * ru.agaev.webapp.Test for your ru.agaev.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
     static final SortedArrayStorage ARRAY_STORAGE = new SortedArrayStorage();

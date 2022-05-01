@@ -1,8 +1,10 @@
 package ru.agaev.webapp.storage;
 
+import ru.agaev.webapp.storage.serializer.ObjectStreamSerializer;
+
 public class ObjectStreamStorageTest extends AbstractStorageTest {
 
     public ObjectStreamStorageTest() {
-        super(new FileStorage(STORAGE_DIR, new ObjectStreamStorage()));
+        super(new FileStorage(STORAGE_DIR, new ObjectStreamSerializer()));
     }
 }

@@ -33,6 +33,22 @@ public class Organization implements Serializable {
         this.experiences.add(info);
     }
 
+    public Link getHomePage() {
+        return homePage;
+    }
+
+    public void setHomePage(Link homePage) {
+        this.homePage = homePage;
+    }
+
+    public List<Experience> getExperiences() {
+        return experiences;
+    }
+
+    public void setExperiences(List<Experience> experiences) {
+        this.experiences = experiences;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

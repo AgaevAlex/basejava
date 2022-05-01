@@ -13,7 +13,6 @@ public class XmlStreamSerializer implements StreamSerializer {
         this.xmlParser = new XmlParser(Resume.class, Link.class, OrganizationSection.class, TextSection.class, ListSection.class, Organization.class, Experience.class);
     }
 
-
     @Override
     public void doWrite(Resume resume, OutputStream os) throws IOException {
         try (Writer w = new OutputStreamWriter(os, StandardCharsets.UTF_8)) {

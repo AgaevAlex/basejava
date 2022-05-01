@@ -20,6 +20,10 @@ public class ListSection extends Section implements Serializable {
         this.list = list;
     }
 
+    public int size() {
+        return list.size();
+    }
+
     public List<String> getList() {
         return list;
     }

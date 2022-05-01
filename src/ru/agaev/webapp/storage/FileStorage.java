@@ -31,11 +31,7 @@ public class FileStorage extends AbstractStorage<File> {
         List<Resume> result = new ArrayList<>();
         nullChecker();
         for (File file : directory.listFiles()) {
-            try {
-                result.add(streamSerializer.doRead(new BufferedInputStream(new FileInputStream(file))));
-            } catch (IOException e) {
-                throw new StorageException("File read error", file.getName(), e);
-            }
+            result.add(doGet(file));
         }
         return result;
     }
@@ -81,7 +77,11 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doRemove(File file) {
-        file.delete();
+        try {
+            file.delete();
+        } catch (Exception e) {
+            throw new StorageException("File delete error", file.getName(), e);
+        }
     }
 
     @Override
@@ -97,7 +97,8 @@ public class FileStorage extends AbstractStorage<File> {
         nullChecker();
         return directory.list().length;
     }
-    private void nullChecker (){
+
+    private void nullChecker() {
         if (directory.listFiles() == null) {
             throw new StorageException("Directory read error");
         }

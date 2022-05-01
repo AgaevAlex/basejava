@@ -1,13 +1,11 @@
-package ru.agaev.webapp.storage;
+package ru.agaev.webapp.storage.serializer;
 
 import ru.agaev.webapp.exception.StorageException;
 import ru.agaev.webapp.model.Resume;
-import ru.agaev.webapp.storage.serializer.StreamSerializer;
 
 import java.io.*;
 
-public class ObjectStreamStorage implements StreamSerializer {
-
+public class ObjectStreamSerializer implements StreamSerializer {
 
     @Override
     public void doWrite(Resume resume, OutputStream os) throws IOException {
