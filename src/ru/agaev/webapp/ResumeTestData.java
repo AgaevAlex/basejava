@@ -50,6 +50,8 @@ public class ResumeTestData {
         listExperience.add(organization2);
         OrganizationSection experience1 = new OrganizationSection(listExperience);
         resume.addSection(SectionType.EXPERIENCE, experience1);
+        String s ="wqeqw";
+        String[] test = s.split("(?<=\\G.{2})");
         return resume;
     }
 }

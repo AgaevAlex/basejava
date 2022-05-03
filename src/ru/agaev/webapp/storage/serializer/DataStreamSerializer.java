@@ -5,44 +5,50 @@ import ru.agaev.webapp.model.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 public class DataStreamSerializer implements StreamSerializer {
+
     @Override
     public void doWrite(Resume resume, OutputStream os) throws IOException {
         try (DataOutputStream dos = new DataOutputStream(os)) {
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
-            Map<ContactType, String> contancts = resume.getContacts();
-            dos.writeInt(contancts.size());
-            for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
+            Map<ContactType, String> contacts = resume.getContacts();
+            writeWithExeption(contacts.entrySet(), dos, entry -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
-            }
+            });
+
             Map<SectionType, Section> sections = resume.getSections();
-            dos.writeInt(sections.size());
-            for (Map.Entry<SectionType, Section> entry : resume.getSections().entrySet()) {
-                Class<? extends Section> clazz = entry.getValue().getClass();
-                if (clazz.equals(TextSection.class)) {
-                    dos.writeUTF(entry.getKey().name());
-                    dos.writeUTF(entry.getValue().toString());
+            writeWithExeption(sections.entrySet(), dos, entry->{
+                SectionType sectionType = entry.getKey();
+                switch (sectionType) {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        dos.writeUTF(entry.getKey().name());
+                        dos.writeUTF(entry.getValue().toString());
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        dos.writeUTF(entry.getKey().name());
+                        List<String> list = ((ListSection) entry.getValue()).getList();
+                        dos.writeInt(list.size());
+                        for (String s : list) {
+                            dos.writeUTF(s);
+                        }
+                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        dos.writeUTF(entry.getKey().name());
+                        List<Organization> organizations = ((OrganizationSection) entry.getValue()).getExperience();
+                        dos.writeInt(organizations.size());
+                        organizations.forEach(organization -> serializeOrganizations(organization, dos));
+                        break;
                 }
-                if (clazz.equals(ListSection.class)) {
-                    dos.writeUTF(entry.getKey().name());
-                    List<String> list = ((ListSection) entry.getValue()).getList();
-                    dos.writeInt(list.size());
-                    for (String s : list) {
-                        dos.writeUTF(s);
-                    }
-                }
-                if (clazz.equals(OrganizationSection.class)) {
-                    dos.writeUTF(entry.getKey().name());
-                    List<Organization> organizations = ((OrganizationSection) entry.getValue()).getExperience();
-                    dos.writeInt(organizations.size());
-                    organizations.forEach(organization -> serializeOrganizations(organization, dos));
-                }
-            }
+            });
         }
     }
 
@@ -128,5 +134,16 @@ public class DataStreamSerializer implements StreamSerializer {
             list.add(new Experience(LocalDate.parse(dis.readUTF()), LocalDate.parse(dis.readUTF()), dis.readUTF(), dis.readUTF()));
         }
         return list;
+    }
+
+    private <T> void writeWithExeption(Collection<T> collection, DataOutputStream dos, WriteCollection<T> writeCollection) throws IOException {
+        dos.writeInt(collection.size());
+        for (T t : collection) {
+            writeCollection.write(t);
+        }
+    }
+
+    interface WriteCollection<T> {
+        void write(T t) throws IOException;
     }
 }
