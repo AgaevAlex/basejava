@@ -25,26 +25,27 @@ public class DataStreamSerializer implements StreamSerializer {
             Map<SectionType, Section> sections = resume.getSections();
             writeWithExeption(sections.entrySet(), dos, entry -> {
                 SectionType sectionType = entry.getKey();
-                dos.writeUTF(entry.getKey().name());
+                Section section = entry.getValue();
+                dos.writeUTF(sectionType.name());
                 switch (sectionType) {
                     case OBJECTIVE:
                     case PERSONAL:
-                        dos.writeUTF(((TextSection) entry.getValue()).getText());
+                        dos.writeUTF(((TextSection) section).getText());
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        List<String> list = ((ListSection) entry.getValue()).getList();
+                        List<String> list = ((ListSection) section).getList();
                         writeWithExeption(list, dos, dos::writeUTF);
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
-                        writeWithExeption(((OrganizationSection) entry.getValue()).getExperience(), dos, entry1 -> {
+                        writeWithExeption(((OrganizationSection) section).getExperience(), dos, entry1 -> {
                             Link link = entry1.getHomePage();
                             dos.writeUTF(link.getName());
                             dos.writeUTF(link.getUrl());
                             writeWithExeption(entry1.getExperiences(), dos, entry2 -> {
-                                dos.writeUTF(String.valueOf(entry2.getStartDate()));
-                                dos.writeUTF(String.valueOf(entry2.getEndDate()));
+                                serializeDate(dos, entry2.getStartDate());
+                                serializeDate(dos, entry2.getEndDate());
                                 dos.writeUTF(entry2.getTitle());
                                 dos.writeUTF(entry2.getDescription());
                             });
@@ -53,6 +54,13 @@ public class DataStreamSerializer implements StreamSerializer {
                 }
             });
         }
+    }
+
+    private void serializeDate(DataOutputStream dos, LocalDate date) throws IOException {
+        dos.writeInt(date.getYear());
+        dos.writeInt(date.getMonthValue());
+
+
     }
 
     @Override
@@ -76,16 +84,19 @@ public class DataStreamSerializer implements StreamSerializer {
                         resume.addSection(sectionType, new OrganizationSection(collectionWithExeption(dis, () -> {
                             Organization organization = new Organization();
                             organization.setHomePage(new Link(dis.readUTF(), dis.readUTF()));
-                            organization.setExperiences(collectionWithExeption(dis, () -> new Experience(LocalDate.parse(dis.readUTF()), LocalDate.parse(dis.readUTF()), dis.readUTF(), dis.readUTF())));
+                            organization.setExperiences(collectionWithExeption(dis, () ->
+                                    new Experience(deserializeDate(dis), deserializeDate(dis), dis.readUTF(), dis.readUTF())));
                             return organization;
                         })));
                 }
-
             });
             return resume;
         }
     }
 
+    private LocalDate deserializeDate(DataInputStream dis) throws IOException {
+        return LocalDate.of(dis.readInt(), dis.readInt(), 1);
+    }
 //    private List<Organization> deserializeOrganization(DataInputStream dis) throws IOException {
 //        List<Organization> organizations = new ArrayList<>();
 //        int counterOrganizations = dis.readInt();
