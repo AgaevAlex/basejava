@@ -19,6 +19,7 @@ public class Deadlock {
         runner.finished();
     }
 }
+
 class Runner {
     private Account account1 = new Account();
     private Account account2 = new Account();
@@ -26,15 +27,18 @@ class Runner {
     private Lock lock1 = new ReentrantLock();
     private Lock lock2 = new ReentrantLock();
 
-    public void firstThread() {
+    public void lockUnlockThreads(Account accountA, Account accountB, Lock lockA, Lock lockB, String threadNumber) {
         Random random = new Random();
 
         for (int i = 0; i < 1000; i++) {
-            lock1.lock();
-            //первый поток здесь
-            lock2.lock();
+            System.out.println("Запуск " + lockA + " в " + threadNumber + " потоке");
+            lockA.lock();
+            System.out.println("Запущен " + lockA + " в " + threadNumber + " потоке");
+            System.out.println("Запуск " + lockB + " в " + threadNumber + " потоке");
+            lockB.lock();
+            System.out.println("Запущен " + lockB + " в " + threadNumber + " потоке");
             try {
-                Account.transfer(account1, account2, random.nextInt(100));
+                Account.transfer(accountA, accountB, random.nextInt(100));
             } finally {
                 lock1.unlock();
                 lock2.unlock();
@@ -43,21 +47,13 @@ class Runner {
         }
     }
 
+    public void firstThread() {
+        lockUnlockThreads(account1, account2, lock1, lock2, "1");
+    }
+
+
     public void secondThread() {
-        Random random = new Random();
-
-        for (int i = 0; i < 1000; i++) {
-            lock2.lock();
-            //второй поток здесь
-            lock1.lock();
-            try {
-                Account.transfer(account2, account1, random.nextInt(100));
-            } finally {
-                lock2.unlock();
-                lock1.unlock();
-            }
-
-        }
+        lockUnlockThreads(account2, account1, lock2, lock1, "2");
     }
 
     public void finished() {
