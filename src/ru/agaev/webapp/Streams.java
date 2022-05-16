@@ -1,0 +1,37 @@
+package ru.agaev.webapp;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+public class Streams {
+    public static void main(String[] args) {
+        int[] i = {9, 8, 8, 8, 9, 9, 9, 9, 8, 1};
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(5);
+        list.add(6);
+        list.add(3);
+        System.out.println(minValue(i));
+        oddOrEven(list);
+    }
+
+    public static int minValue(int[] values) {
+        int result;
+        result = Arrays.stream(values).distinct().sorted().reduce((acc, b) -> 10 * acc + b).getAsInt();
+        System.out.println(result);
+        return result;
+    }
+
+    public static List<Integer> oddOrEven(List<Integer> integers) {
+        Optional<Object> result = integers.stream().reduce(Integer::sum)
+                .map(i -> i % 2 == 0 ?
+                        integers.stream().filter(a -> a % 2 == 0).collect(Collectors.toList())
+                        : integers.stream().filter(a -> a % 2 != 0).collect(Collectors.toList()));
+        return (List<Integer>) result.orElse(new ArrayList<>());
+    }
+}
+

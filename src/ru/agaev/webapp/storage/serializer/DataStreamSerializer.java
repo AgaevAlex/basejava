@@ -17,13 +17,13 @@ public class DataStreamSerializer implements StreamSerializer {
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
             Map<ContactType, String> contacts = resume.getContacts();
-            writeWithExeption(contacts.entrySet(), dos, entry -> {
+            writeCollection(contacts.entrySet(), dos, entry -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             });
 
             Map<SectionType, Section> sections = resume.getSections();
-            writeWithExeption(sections.entrySet(), dos, entry -> {
+            writeCollection(sections.entrySet(), dos, entry -> {
                 SectionType sectionType = entry.getKey();
                 Section section = entry.getValue();
                 dos.writeUTF(sectionType.name());
@@ -35,15 +35,15 @@ public class DataStreamSerializer implements StreamSerializer {
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         List<String> list = ((ListSection) section).getList();
-                        writeWithExeption(list, dos, dos::writeUTF);
+                        writeCollection(list, dos, dos::writeUTF);
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
-                        writeWithExeption(((OrganizationSection) section).getExperience(), dos, entry1 -> {
+                        writeCollection(((OrganizationSection) section).getExperience(), dos, entry1 -> {
                             Link link = entry1.getHomePage();
                             dos.writeUTF(link.getName());
                             dos.writeUTF(link.getUrl());
-                            writeWithExeption(entry1.getExperiences(), dos, entry2 -> {
+                            writeCollection(entry1.getExperiences(), dos, entry2 -> {
                                 serializeDate(dos, entry2.getStartDate());
                                 serializeDate(dos, entry2.getEndDate());
                                 dos.writeUTF(entry2.getTitle());
@@ -59,8 +59,6 @@ public class DataStreamSerializer implements StreamSerializer {
     private void serializeDate(DataOutputStream dos, LocalDate date) throws IOException {
         dos.writeInt(date.getYear());
         dos.writeInt(date.getMonthValue());
-
-
     }
 
     @Override
@@ -74,7 +72,7 @@ public class DataStreamSerializer implements StreamSerializer {
                     case OBJECTIVE:
                     case PERSONAL:
                         resume.addSection(sectionType, new TextSection(dis.readUTF()));
-                        break;
+                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         resume.addSection(sectionType, new ListSection(collectionWithExeption(dis, dis::readUTF)));
@@ -127,7 +125,7 @@ public class DataStreamSerializer implements StreamSerializer {
 //        return list;
 //    }
 
-    private <T> void writeWithExeption(Collection<T> collection, DataOutputStream dos, WriteCollection<T> writeCollection) throws IOException {
+    private <T> void writeCollection(Collection<T> collection, DataOutputStream dos, WriteCollection<T> writeCollection) throws IOException {
         dos.writeInt(collection.size());
         for (T t : collection) {
             writeCollection.write(t);
