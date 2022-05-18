@@ -5,6 +5,6 @@ import ru.agaev.webapp.storage.serializer.JsonStreamSerializer;
 public class JsonPathStorageTest extends AbstractStorageTest {
 
     public JsonPathStorageTest() {
-        super(new FileStorage(STORAGE_DIR, new JsonStreamSerializer()));
+        super(new FileStorage(STORAGE_DIR.toString(), new JsonStreamSerializer()));
     }
 }

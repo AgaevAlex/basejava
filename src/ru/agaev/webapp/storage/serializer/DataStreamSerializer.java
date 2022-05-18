@@ -72,7 +72,7 @@ public class DataStreamSerializer implements StreamSerializer {
                     case OBJECTIVE:
                     case PERSONAL:
                         resume.addSection(sectionType, new TextSection(dis.readUTF()));
-                         break;
+                        break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         resume.addSection(sectionType, new ListSection(collectionWithExeption(dis, dis::readUTF)));
