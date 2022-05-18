@@ -1,5 +1,8 @@
 package ru.agaev.webapp;
 
+import ru.agaev.webapp.storage.SqlStorage;
+import ru.agaev.webapp.storage.Storage;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,6 +17,8 @@ public class Config {
     private String dbUrl;
     private String dbUser;
     private String dbPassword;
+    private Storage storage;
+
 
     private Config() {
         try (InputStream is = new FileInputStream(PROPS)) {
@@ -22,7 +27,7 @@ public class Config {
             dbUrl = props.getProperty("db.url");
             dbUser = props.getProperty("db.user");
             dbPassword = props.getProperty("db.password");
-
+            storage = new SqlStorage(dbUrl, dbUser, dbPassword);
         } catch (IOException e) {
             throw new IllegalStateException("Invalid config file " + PROPS);
         }
@@ -30,6 +35,10 @@ public class Config {
 
     public static Config get() {
         return INSTANCE;
+    }
+
+    public Storage getStorage() {
+        return storage;
     }
 
     public File getStorageDir() {

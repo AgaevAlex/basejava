@@ -18,13 +18,13 @@ import static org.junit.Assert.assertTrue;
 public abstract class AbstractStorageTest {
     protected final static File STORAGE_DIR = Config.get().getStorageDir();
 
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_4 = "uuid4";
-    private static final String UUID_5 = "uuid5";
-    private static final String UUID_6 = "uuid4";
-    private static final String UUID_7 = "testOverflow";
+    private static final String UUID_1 = "1";
+    private static final String UUID_2 = "22";
+    private static final String UUID_3 = "333";
+    private static final String UUID_4 = "4444";
+    private static final String UUID_5 = "55555";
+    private static final String UUID_6 = "666666";
+    private static final String UUID_7 = "7777777";
     protected static final Resume resume7 = ResumeTestData.createResume(UUID_7);
     private static final Resume resume1 = ResumeTestData.createResume(UUID_1);
     private static final Resume resume2 = ResumeTestData.createResume(UUID_2);
