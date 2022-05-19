@@ -14,10 +14,8 @@ import java.util.List;
  * (just run, no need to understand)
  */
 public class MainArray {
-    private static String dbUrl = Config.get().getDbUrl();
-    private static String dbUser = Config.get().getDbUser();
-    private static String dbPassword = Config.get().getDbPassword();
-    private final static Storage ARRAY_STORAGE = new SqlStorage(dbUrl, dbUser, dbPassword);
+
+    private final static Storage ARRAY_STORAGE = Config.get().getStorage();
 
     public static void main(String[] args) throws IOException, RuntimeException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

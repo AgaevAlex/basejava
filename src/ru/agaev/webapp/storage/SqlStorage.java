@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqlStorage<T> implements Storage {
+public class SqlStorage implements Storage {
     private SqlHelper sqlHelper;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
@@ -38,21 +38,13 @@ public class SqlStorage<T> implements Storage {
 
     @Override
     public void save(Resume resume) {
-        sqlHelper.execute("SELECT * FROM resume WHERE uuid =?", ps -> {
+        sqlHelper.execute("INSERT INTO resume (uuid, full_name) VALUES (?, ?);", ps -> {
             ps.setString(1, resume.getUuid());
-            ResultSet rs = ps.executeQuery();
-            if (!rs.next()) {
-                sqlHelper.execute("INSERT INTO resume (uuid, full_name) VALUES (?, ?);", ps1 -> {
-                    ps1.setString(1, resume.getUuid());
-                    ps1.setString(2, resume.getFullName());
-                    ps1.execute();
-                    return null;
-                });
-            } else {
-                throw new StorageException("Resume" + resume.getUuid() + " already exist");
-            }
+            ps.setString(2, resume.getFullName());
+            ps.execute();
             return null;
         });
+
     }
 
     @Override
@@ -90,15 +82,11 @@ public class SqlStorage<T> implements Storage {
         });
     }
 
-
     @Override
     public int size() {
         return sqlHelper.execute("SELECT count(*) FROM resume", ps -> {
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-            return 0;
+            return rs.next() ? rs.getInt(1) : 0;
         });
     }
 }

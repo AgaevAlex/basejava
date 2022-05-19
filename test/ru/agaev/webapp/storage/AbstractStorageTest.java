@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.agaev.webapp.Config;
 import ru.agaev.webapp.ResumeTestData;
+import ru.agaev.webapp.exception.ExistStorageException;
 import ru.agaev.webapp.exception.NotExistStorageException;
 import ru.agaev.webapp.exception.StorageException;
 import ru.agaev.webapp.model.Resume;
@@ -55,7 +56,7 @@ public abstract class AbstractStorageTest {
     }
 
 
-    @Test(expected = StorageException.class)
+    @Test(expected = ExistStorageException.class)
     public void saveExistResume() {
         storage.save(resume4);
     }
