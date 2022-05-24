@@ -1,7 +1,6 @@
 package ru.agaev.webapp;
 
 import ru.agaev.webapp.model.Resume;
-import ru.agaev.webapp.storage.SqlStorage;
 import ru.agaev.webapp.storage.Storage;
 
 import java.io.BufferedReader;
