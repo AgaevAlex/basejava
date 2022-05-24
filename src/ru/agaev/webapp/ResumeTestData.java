@@ -1,5 +1,6 @@
 package ru.agaev.webapp;
 
+import ru.agaev.webapp.model.ContactType;
 import ru.agaev.webapp.model.Resume;
 
 public class ResumeTestData {
@@ -8,14 +9,14 @@ public class ResumeTestData {
     }
 
     public static Resume createResume(String fullName) {
-
-//        resume.addContact(ContactType.PHONE, "+7(921) 855-0482");
-//        resume.addContact(ContactType.SKYPE, "skype:grigory.kislin");
-//        resume.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
-//        resume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-//        resume.addContact(ContactType.GITHUB, "https://github.com/gkislin");
-//        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
-//        resume.addContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
+        Resume resume = new Resume(fullName);
+        resume.addContact(ContactType.PHONE, "+7(921) 855-0482");
+        resume.addContact(ContactType.SKYPE, "skype:grigory.kislin");
+        resume.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
+        resume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        resume.addContact(ContactType.GITHUB, "https://github.com/gkislin");
+        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
+        resume.addContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
 //
 //        resume.addSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
 //        resume.addSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
@@ -46,6 +47,6 @@ public class ResumeTestData {
 //        resume.addSection(SectionType.EXPERIENCE, experience1);
 //        String s ="wqeqw";
 //        String[] test = s.split("(?<=\\G.{2})");
-        return new Resume(fullName);
+        return resume;
     }
 }
