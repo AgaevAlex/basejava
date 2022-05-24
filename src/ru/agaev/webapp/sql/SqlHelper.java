@@ -1,5 +1,7 @@
 package ru.agaev.webapp.sql;
 
+import org.postgresql.util.PSQLException;
+import ru.agaev.webapp.exception.ExistStorageException;
 import ru.agaev.webapp.exception.StorageException;
 
 import java.sql.Connection;
@@ -19,9 +21,11 @@ public class SqlHelper {
              PreparedStatement ps = conn.prepareStatement(sql)) {
             return (T) sqlReader.execute(ps);
         } catch (SQLException e) {
-            ExceptionUtil.convertException(e);
+            if (e instanceof PSQLException && e.getSQLState().equals("23505")) {
+                throw new ExistStorageException(e.toString());
+            }
+            throw new StorageException(e);
         }
-        return null;
     }
 
     public <T> T transactionalExecute(SqlTransaction<T> executor) {
