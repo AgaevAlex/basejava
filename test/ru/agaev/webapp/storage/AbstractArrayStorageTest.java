@@ -23,6 +23,6 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         } catch (StorageException e) {
             fail("Stackoverflow ahead of time");
         }
-        storage.save(resume7);
+        storage.save(resume4);
     }
 }

@@ -19,20 +19,14 @@ import static org.junit.Assert.assertTrue;
 public abstract class AbstractStorageTest {
     protected final static File STORAGE_DIR = Config.get().getStorageDir();
 
-    private static final String UUID_1 = "1";
-    private static final String UUID_2 = "22";
-    private static final String UUID_3 = "333";
-    private static final String UUID_4 = "4444";
-    private static final String UUID_5 = "55555";
-    private static final String UUID_6 = "666666";
-    private static final String UUID_7 = "7777777";
-    protected static final Resume resume7 = ResumeTestData.createResume(UUID_7);
-    private static final Resume resume1 = ResumeTestData.createResume(UUID_1);
-    private static final Resume resume2 = ResumeTestData.createResume(UUID_2);
-    private static final Resume resume3 = ResumeTestData.createResume(UUID_3);
-    private static final Resume resume4 = ResumeTestData.createResume(UUID_4);
-    private static final Resume resume6 = resume4;
-    private static final Resume resume5 = ResumeTestData.createResume(UUID_5);
+
+    protected static final Resume resume1 = ResumeTestData.createResume("1");
+    protected static final Resume resume2 = ResumeTestData.createResume("22");
+    protected static final Resume resume3 = ResumeTestData.createResume("333");
+    protected static final Resume resume4 = ResumeTestData.createResume("4444");
+    protected static final Resume resume5 = ResumeTestData.createResume("55555");
+    protected static final Resume resume6 = resume4;
+
     protected final Storage storage;
 
     public AbstractStorageTest(Storage storage) {
